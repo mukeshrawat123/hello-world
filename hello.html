@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<button onclick="createFile()">Create GitHub File</button>
+
+<script>
+const username = "mukeshrawat123";
+const repo = "YOUR_REPO_NAME";
+const token = "YOUR_GITHUB_TOKEN"; // ⚠️ DO NOT expose in production
+
+function createFile() {
+  const content = "Hello GitHub!\nThis file is created using GitHub API.";
+
+  fetch(`https://api.github.com/repos/${username}/${repo}/contents/hello.txt`, {
+    method: "PUT",
+    headers: {
+      "Authorization": `token ${token}`,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      message: "Create hello.txt",
+      content: btoa(content) // Base64 encode
+    })
+  })
+  .then(res => res.json())
+  .then(data => {
+    console.log("File created:", data);
+    alert("File created successfully!");
+  })
+  .catch(err => console.error(err));
+}
+</script>
+
+</body>
+</html>
